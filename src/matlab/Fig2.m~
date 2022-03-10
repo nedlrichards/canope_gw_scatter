@@ -1,0 +1,270 @@
+clear
+close all
+load('xpos.Canape2016-T1-11.0.mat')
+load('DVLAmeanSoundSpeed.mat')
+% lat and long
+lat=xpos.xlat;
+lon=xpos.xlon;
+zt=xpos.z;
+Re=6356.75*1e3;
+xt=Re*cos(75.3633*pi/180)*((lon+145.0522)*pi/180);
+yt=Re*((lat-75.3633)*(pi/180));
+
+%load the interragator and hydprohne data
+load 'nav75_260609111_5458.mat' 
+load 'nav75_260609112_5458.mat' 
+% load 'nav75_260609115_5458.mat' 
+% load 'nav75_260609116_5458.mat' 
+%load 'nav75_260609121_5458.mat' 
+%load 'nav75_260609122_5458.mat'
+
+intensity11(:,1:4128)=intensity111(:,1:4128);
+intensity11(:,4129:8256)=intensity112(:,1:4128);
+% 
+% intensity115(:,1:4128)=intensity115(:,1:4128);
+% intensity115(:,4129:8256)=intensity116(:,1:4128);
+
+%intensity12(:,1:4128)=intensity121(:,1:4128);
+%intensity12(:,4129:8256)=intensity122(:,1:4128);
+
+
+
+
+
+intensity=intensity11';
+figure(4)
+subplot(231)
+title('OW/IF')
+nc=0;
+fc=11;
+imax=max(max(intensity));
+good=find(yearday>=280 & yearday<=330);
+yearday1=yearday(good);
+intensity1=intensity(good,:);
+
+for i=1:length(yearday1)
+    nc=nc+1
+    hold on
+    imagesc(taxi,yearday1(i),10*log10(abs(intensity1(i,:))/imax))
+    hold on
+end
+xlim([5.6 7.2])
+ylim([yearday1(1) yearday1(end)])
+cbh=colorbar
+colorbar off
+colormap('jet')
+set(gca, 'clim', [-50 0]);
+axis('ij')
+ylabel(' Yearday, t','FontSize',17)
+%xlabel('Arrival Time (s) ','FontSize',20)
+%title([num2str(fc) ' (kHz), T1'],'FontSize',25)
+ylim([280 330])
+%ylim([260 609])
+xlim([6.2 6.8])
+%set(cbh,'XTickLabel',[0:-10:-50])
+set(gca,'FontSize',17);
+set(gca,'YTick',[280:10:330],'FontSize', 17)
+set(gca,'XTick',[6.2:0.2:6.8],'FontSize', 17)
+
+nc=0;
+figure(4)
+subplot(232)
+title('IS/IT')
+imax=max(max(intensity));
+good=find(yearday>=330 & yearday<=380);
+yearday1=yearday(good);
+intensity1=intensity(good,:);
+for i=1:length(yearday1)
+    nc=nc+1
+    hold on
+    imagesc(taxi,yearday1(i),10*log10(abs(intensity1(i,:))/imax))
+    hold on
+end
+xlim([5.6 6.8])
+ylim([yearday(1) yearday(end)])
+cbh=colorbar
+colorbar off
+colormap('jet')
+set(gca, 'clim', [-50 0]);
+axis('ij')
+%ylabel(' Yearday','FontSize',20)
+%xlabel('Arrival Time (s) ','FontSize',20)
+%title([num2str(fc) ' (kHz), T1'],'FontSize',25)
+ylim([330 380])
+%ylim([260 609])
+xlim([6.2 6.8])
+%set(cbh,'XTickLabel',[0:-10:-50])
+set(gca,'FontSize',17);
+set(gca,'YTick',[330:10:380],'FontSize', 17)
+set(gca,'XTick',[6.2:0.2:6.8],'FontSize', 17)
+
+
+
+
+
+nc=0;
+figure(4)
+subplot(233)
+title('IM')
+imax=max(max(intensity));
+good=find(yearday>=530 & yearday<=581);
+yearday1=yearday(good);
+intensity1=intensity(good,:);
+for i=1:length(yearday1)
+    nc=nc+1
+    hold on
+    imagesc(taxi,yearday1(i),10*log10(abs(intensity1(i,:))/imax))
+    hold on
+end
+xlim([5.6 7.2])
+ylim([yearday(1) yearday(end)])
+cbh=colorbar
+colorbar
+hcb=colorbar;
+hcb.Title.String = "dB/re max";
+colormap('jet')
+set(gca, 'clim', [-50 0]);
+axis('ij')
+%ylabel(' Yearday','FontSize',20)
+%xlabel('Arrival Time (s) ','FontSize',20)
+%title([num2str(fc) ' (kHz), T1'],'FontSize',25)
+ylim([530 580])
+%ylim([260 609])
+xlim([6.2 6.8])
+%set(cbh,'XTickLabel',[0:-10:-50])
+set(gca,'FontSize',17);
+set(gca,'YTick',[530:10:580],'FontSize', 17)
+set(gca,'XTick',[6.2:0.2:6.8],'FontSize', 17)
+
+
+
+figure(4)
+subplot(234)
+nc=0;
+fc=12;
+imax=max(max(intensity));
+good=find(yearday>=300 & yearday<=306);
+yearday1=yearday(good);
+intensity1=intensity(good,:);
+for i=1:length(yearday1)
+    nc=nc+1
+    hold on
+    imagesc(taxi,yearday1(i),10*log10(abs(intensity1(i,:))/imax))
+    hold on
+end
+ylim([yearday(1) yearday(end)])
+cbh=colorbar
+colormap('jet')
+colorbar off
+set(gca, 'clim', [-50 0]);
+axis('ij')
+xlabel('Arrival Time (s), \tau ','FontSize',17)
+%title([num2str(fc) ' (kHz), T1'],'FontSize',25)
+ylim([300 305])
+%ylim([260 609])
+xlim([6.2 6.8])
+%set(cbh,'XTickLabel',[0:-10:-50])
+set(gca,'FontSize',17);
+hold on
+plot(tt2(1,:),yearday,'k*','MarkerSize',0.5)
+set(gca,'YTick',[300:305],'FontSize', 17)
+ylabel(' Yearday, t','FontSize',17)
+set(gca,'XTick',[6:0.2:6.8],'FontSize', 17)
+
+figure(4)
+subplot(235)
+nc=0;
+fc=12;
+imax=max(max(intensity));
+good=find(yearday>=360 & yearday<=370);
+yearday1=yearday(good);
+intensity1=intensity(good,:);
+for i=1:length(yearday1)
+    nc=nc+1
+    hold on
+    imagesc(taxi,yearday1(i),10*log10(abs(intensity1(i,:))/imax))
+    hold on
+end
+
+ylim([yearday(1) yearday(end)])
+hcb=colorbar
+hcb.Title.String = "dB/re max";
+colorbar off
+colormap('jet')
+set(gca, 'clim', [-50 0]);
+axis('ij')
+xlabel('Arrival Time (s), \tau ','FontSize',17)
+%title([num2str(fc) ' (kHz), T1'],'FontSize',25)
+ylim([360 365])
+%ylim([260 609])
+xlim([6.2 6.8])
+%set(cbh,'XTickLabel',[0:-10:-50])
+set(gca,'FontSize',17);
+hold on
+plot(tt2(1,:),yearday,'k*','MarkerSize',0.5)
+set(gca,'YTick',[360:1:365],'FontSize', 17)
+set(gca,'XTick',[6:0.2:6.8],'FontSize', 17)
+
+
+
+
+figure(4)
+subplot(236)
+nc=0;
+fc=12;
+imax=max(max(intensity));
+good=find(yearday>=550 & yearday<=556);
+yearday1=yearday(good);
+intensity1=intensity(good,:);
+for i=1:length(yearday1)
+    nc=nc+1
+    hold on
+    imagesc(taxi,yearday1(i),10*log10(abs(intensity1(i,:))/imax))
+    hold on
+end
+ylim([yearday(1) yearday(end)])
+hcb=colorbar
+hcb.Title.String = "dB/re max";
+colormap('jet')
+set(gca, 'clim', [-50 0]);
+axis('ij')
+xlabel('Arrival Time (s), \tau ','FontSize',17)
+%title([num2str(fc) ' (kHz), T1'],'FontSize',25)
+ylim([550 555])
+%ylim([260 609])
+xlim([6.2 6.8])
+%set(cbh,'XTickLabel',[0:-10:-50])
+set(gca,'FontSize',17);
+hold on
+plot(tt2(1,:),yearday,'k*','MarkerSize',0.5)
+set(gca,'YTick',[550:555],'FontSize', 17)
+xlabel('Arrival Time (s), \tau ','FontSize',17)
+set(gca,'XTick',[6:0.2:7],'FontSize', 17)
+
+
+T1=subplot(2,3,4)
+pos1 = get(T1,'Position')
+set(T1,'Position',[pos1(1) pos1(2) pos1(3)*1.1  pos1(4)])
+
+T1=subplot(2,3,5)
+pos2 = get(T1,'Position')
+set(T1,'Position',[pos2(1) pos2(2) pos1(3)*1.1  pos2(4)])
+
+T1=subplot(2,3,6)
+pos3 = get(T1,'Position')
+set(T1,'Position',[pos3(1) pos3(2) pos1(3)*1.12  pos3(4)])
+
+
+
+
+T1=subplot(2,3,1)
+pos1 = get(T1,'Position')
+set(T1,'Position',[pos1(1) pos1(2) pos1(3)*1.1  pos1(4)])
+
+T1=subplot(2,3,2)
+pos2 = get(T1,'Position')
+set(T1,'Position',[pos2(1) pos2(2) pos1(3)*1.1  pos2(4)])
+
+T1=subplot(2,3,3)
+pos3 = get(T1,'Position')
+set(T1,'Position',[pos3(1) pos3(2) pos1(3)*1.1  pos3(4)])
