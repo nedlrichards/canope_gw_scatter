@@ -40,6 +40,3 @@ for hr in range(24):
 
     fig.savefig('notebooks/figures/' + load_file.split('.')[0] + '.png', dpi=300)
     plt.close(fig)
-
-
-
